@@ -1,0 +1,140 @@
+1. admins
+   -adminId
+   -email
+   -phone
+   -role
+   -password
+   -activeStatus
+   -createdDateTime
+   -otp
+   -otpCreatedDateTime
+   -otpExpiry
+
+2. adminProfiles
+   -adminProfileId
+   -adminId
+   -firstname
+   -middlename
+   -lastname
+   -imageUrl
+
+3. healthStations
+   -healthStationId
+   -registerdBy(adminId)
+   -name
+   -type
+   -city
+   -subcity
+   -kebele
+   -houseNumber
+   -createdDateTime
+
+4. healthStationInfos
+   -healthStationInfoId
+   -healthStationId
+   -serviceAm
+   -serviceOr
+   -descriptionAm
+   -descriptionOr
+   -createdDateTime
+   -registerdBy(userId)
+
+5. news
+   -newsId
+   -writerId(adminId)
+   -titleAm
+   -titleOr
+   -descriptionAm
+   -descriptionOr
+   -imageUrl
+   -createdDateTime
+
+6. vaccines
+   -vaccineId
+   -registerdBy(adminId)
+   -name
+   -category
+   -dose
+   -duration
+   -description
+   -ageRange
+   -createdDateTime
+
+7. users
+   -userId
+   -email
+   -phone
+   -role
+   -activeStatus
+   -password
+   -otp
+   -otpCreatedDateTime
+   -otpExpiry
+
+8. userProfiles
+   -userProfileId
+   -userId
+   -firstname
+   -middlename
+   -lastname
+   -sex
+   -imageUrl
+
+9. professionalProfile
+   -professionalProfileId
+   -userId
+   -healthStationId
+   -title
+   -position
+
+10. mother
+    -motherId
+    -userId
+    -birthdate
+    -bloodType
+    -RH
+
+11. children
+    -childId
+    -motherId
+    -registerdBy(userId)
+    -firstname
+    -middlename
+    -lastname
+    -birthdate
+    -bloodType
+    -isVaccineCompleted
+
+12. motherVaccine
+    -motherVaccine
+    -motherId
+    -vaccineId
+    -createdDateTime
+    -healthStationId
+    -registerdBy(userId)
+
+13. childrenVaccine
+    -childrenVaccineId
+    -childId
+    -vaccineId
+    -createdDateTime
+    -healthStationId
+    -registerdBy(userId)
+
+14. certification
+    -certificationId
+    -name
+    -childId
+    -issuedDate
+    -healthStationId
+    -registerdBy(userId)
+
+15. appointment
+    -appointmentId
+    -userId
+    -healthStationId
+    -registerdBy(userId)
+    -createdDateTime
+    -appointmentDate
+    -description
+    -vaccineId
