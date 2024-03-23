@@ -38,6 +38,9 @@ dependencies:
   banner_carousel: ^1.2.1
   nfc_manager: ^3.4.0
   sqflite: ^2.3.2
+  dash_chat_2: ^0.0.20
+  chat_gpt_sdk: ^3.0.4
+  permission_handler: ^11.3.0
 
 dev_dependencies:
   flutter_test:

@@ -25,7 +25,7 @@ class _PostCarouselState extends State<PostCarousel> {
           widthAnimation: 40,
         ),
         height: 285,
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width * 1,
         activeColor: const Color.fromARGB(255, 255, 102, 64),
         disableColor: Colors.white,
         animation: true,

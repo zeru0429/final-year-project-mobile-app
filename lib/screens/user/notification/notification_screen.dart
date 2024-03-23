@@ -1,7 +1,9 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:mobile/providers/theme_provider.dart';
+import 'package:mobile/screens/user/notification/notification_detail_screen.dart';
 import 'package:mobile/widgets/avators/circular_border.dart';
 import 'package:mobile/widgets/card/notificaction_card.dart';
 import 'package:mobile/widgets/headers/app_header_section.dart';
@@ -45,83 +47,131 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 ),
               ),
-              const NotificationCard(
-                read: true,
-                userName: 'mamo welde',
-                date: 'seb 21:2023',
-                mention: 'abebe',
-                mentioned: true,
-                userOnline: false,
-                message:
-                    'opportunity. Entrepreneur or corporate hr employee happy face for internship with mock up stock photo',
-                image:
-                    'https://images.unsplash.com/photo-1704137893004-353622b7ab14?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                imageBackground: 'Colors.black',
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationDetaile()));
+                },
+                child: const NotificationCard(
+                  read: true,
+                  userName: 'mamo welde',
+                  date: 'seb 21:2023',
+                  mention: 'abebe',
+                  mentioned: true,
+                  userOnline: false,
+                  message:
+                      'opportunity. Entrepreneur or corporate hr employee happy face for internship with mock up stock photo',
+                  image:
+                      'https://images.unsplash.com/photo-1704137893004-353622b7ab14?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  imageBackground: 'Colors.black',
+                ),
               ),
-              const NotificationCard(
-                read: false,
-                userName: 'mamo welde',
-                date: 'seb 21:2023',
-                mention: 'abebe',
-                mentioned: true,
-                userOnline: true,
-                message:
-                    'opportunity. Entrepreneur or corporate hr employee happy face for internship with mock up stock photo',
-                image:
-                    'https://images.unsplash.com/photo-1704137893004-353622b7ab14?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                imageBackground: 'Colors.black',
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationDetaile()));
+                },
+                child: const NotificationCard(
+                  read: true,
+                  userName: 'mamo welde',
+                  date: 'seb 21:2023',
+                  mention: 'abebe',
+                  mentioned: true,
+                  userOnline: false,
+                  message:
+                      'opportunity. Entrepreneur or corporate hr employee happy face for internship with mock up stock photo',
+                  image:
+                      'https://images.unsplash.com/photo-1704137893004-353622b7ab14?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  imageBackground: 'Colors.black',
+                ),
               ),
-              const NotificationCard(
-                read: false,
-                userName: 'mamo welde',
-                date: 'seb 21:2023',
-                mention: 'abebe',
-                mentioned: true,
-                userOnline: true,
-                message:
-                    'opportunity. Entrepreneur or corporate hr employee happy face for internship with mock up stock photo',
-                image:
-                    'https://images.unsplash.com/photo-1704137893004-353622b7ab14?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                imageBackground: 'Colors.black',
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationDetaile()));
+                },
+                child: const NotificationCard(
+                  read: true,
+                  userName: 'mamo welde',
+                  date: 'seb 21:2023',
+                  mention: 'abebe',
+                  mentioned: true,
+                  userOnline: false,
+                  message:
+                      'opportunity. Entrepreneur or corporate hr employee happy face for internship with mock up stock photo',
+                  image:
+                      'https://images.unsplash.com/photo-1704137893004-353622b7ab14?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  imageBackground: 'Colors.black',
+                ),
               ),
-              const NotificationCard(
-                read: false,
-                userName: 'mamo welde',
-                date: 'seb 21:2023',
-                mention: 'abebe',
-                mentioned: true,
-                userOnline: true,
-                message:
-                    'opportunity. Entrepreneur or corporate hr employee happy face for internship with mock up stock photo',
-                image:
-                    'https://images.unsplash.com/photo-1704137893004-353622b7ab14?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                imageBackground: 'Colors.black',
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationDetaile()));
+                },
+                child: const NotificationCard(
+                  read: true,
+                  userName: 'mamo welde',
+                  date: 'seb 21:2023',
+                  mention: 'abebe',
+                  mentioned: true,
+                  userOnline: false,
+                  message:
+                      'opportunity. Entrepreneur or corporate hr employee happy face for internship with mock up stock photo',
+                  image:
+                      'https://images.unsplash.com/photo-1704137893004-353622b7ab14?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  imageBackground: 'Colors.black',
+                ),
               ),
-              const NotificationCard(
-                read: false,
-                userName: 'mamo welde',
-                date: 'seb 21:2023',
-                mention: 'metion',
-                mentioned: true,
-                userOnline: true,
-                message:
-                    'opportunity. Entrepreneur or corporate hr employee happy face for internship with mock up stock photo',
-                image:
-                    'https://images.unsplash.com/photo-1704137893004-353622b7ab14?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                imageBackground: 'Colors.black',
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationDetaile()));
+                },
+                child: const NotificationCard(
+                  read: true,
+                  userName: 'mamo welde',
+                  date: 'seb 21:2023',
+                  mention: 'abebe',
+                  mentioned: true,
+                  userOnline: false,
+                  message:
+                      'opportunity. Entrepreneur or corporate hr employee happy face for internship with mock up stock photo',
+                  image:
+                      'https://images.unsplash.com/photo-1704137893004-353622b7ab14?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  imageBackground: 'Colors.black',
+                ),
               ),
-              const NotificationCard(
-                read: false,
-                userName: 'mamo welde',
-                date: 'seb 21:2023',
-                mention: 'metion',
-                mentioned: true,
-                userOnline: true,
-                message:
-                    'opportunity. Entrepreneur or corporate hr employee happy face for internship with mock up stock photo',
-                image:
-                    'https://images.unsplash.com/photo-1704137893004-353622b7ab14?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                imageBackground: 'Colors.black',
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationDetaile()));
+                },
+                child: const NotificationCard(
+                  read: true,
+                  userName: 'mamo welde',
+                  date: 'seb 21:2023',
+                  mention: 'abebe',
+                  mentioned: true,
+                  userOnline: false,
+                  message:
+                      'opportunity. Entrepreneur or corporate hr employee happy face for internship with mock up stock photo',
+                  image:
+                      'https://images.unsplash.com/photo-1704137893004-353622b7ab14?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  imageBackground: 'Colors.black',
+                ),
               ),
             ],
           ),

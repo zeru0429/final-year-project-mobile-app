@@ -56,7 +56,7 @@ class _NotificationCardState extends State<NotificationCard> {
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Stack(
                 children: [
