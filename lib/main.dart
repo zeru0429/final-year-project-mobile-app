@@ -76,7 +76,8 @@ class _MyAppState extends State<MyApp> {
     final Map<Permission, PermissionStatus> permissionStatuses = await [
       Permission.camera,
       Permission.location,
-      Permission.contacts
+      Permission.contacts,
+      Permission.notification
     ].request();
 
     // Process the permission statuses and handle accordingly
@@ -93,6 +94,9 @@ class _MyAppState extends State<MyApp> {
           case Permission.contacts:
             // Contacts permission granted, access user's contacts
             break;
+          case Permission.notification:
+            // Contacts permission granted, access user's contacts
+            break;
         }
       } else if (status.isDenied) {
         // Permission is denied, show a message or disable related features
@@ -105,6 +109,9 @@ class _MyAppState extends State<MyApp> {
             break;
           case Permission.contacts:
             // Contacts permission denied, inform the user or disable contacts-related features
+            break;
+          case Permission.notification:
+            // Contacts permission granted, access user's contacts
             break;
         }
       } else if (status.isPermanentlyDenied) {
@@ -119,6 +126,9 @@ class _MyAppState extends State<MyApp> {
             break;
           case Permission.contacts:
             // Contacts permission permanently denied, show a dialog or redirect to app settings
+            break;
+          case Permission.notification:
+            // Contacts permission granted, access user's contacts
             break;
         }
       }

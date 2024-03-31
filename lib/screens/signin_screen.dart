@@ -8,7 +8,6 @@ import 'package:mobile/providers/theme_provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile/widgets/input/lablelled_form_input.dart';
-import 'package:provider/provider.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -84,7 +83,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       placeholder: "Email",
                       keyboardType: "text",
                       controller: _emailcontroller,
-                      obscureText: false,
+                      obscureText: true,
                       label: "email",
                     ),
                     const SizedBox(height: 40),
@@ -92,7 +91,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       placeholder: "Password",
                       keyboardType: "text",
                       controller: _passwordcontroller,
-                      obscureText: true,
+                      obscureText: false,
                       label: "Your Password",
                     ),
                     const SizedBox(height: 40),

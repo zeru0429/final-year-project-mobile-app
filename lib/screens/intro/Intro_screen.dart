@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:animated_introduction/animated_introduction.dart';

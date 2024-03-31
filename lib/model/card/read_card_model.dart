@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:mobile/model/card/ndfs_info_model.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
 class TagReadModel extends ChangeNotifier {

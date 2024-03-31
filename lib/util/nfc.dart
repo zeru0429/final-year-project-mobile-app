@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:mobile/widgets/dialog/nfc_dialogs.dart';
 import 'package:nfc_manager/nfc_manager.dart';

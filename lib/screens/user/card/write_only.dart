@@ -1,20 +1,19 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
-import 'package:mobile/model/card/ndfs_info_model.dart';
 import 'package:mobile/model/card/read_record_type_model.dart';
-import 'package:mobile/model/card/write_card_model.dart';
 import 'package:mobile/model/card/write_record_type_model.dart';
+import 'package:mobile/screens/user/card/write/EditTextPage.dart';
+import 'package:mobile/screens/user/card/write/NdefWriteModel.dart';
+import 'package:mobile/screens/user/card/write/session.dart';
 import 'package:mobile/util/extentions.dart';
-import 'package:mobile/util/nfc.dart';
 import 'package:mobile/widgets/form/form_row_widget.dart';
-import 'package:mobile/widgets/texteditor/edit_text.dart';
 import 'package:mobile/widgets/texteditor/edite_text_external.dart';
 import 'package:mobile/widgets/texteditor/ndfs_record.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:provider/provider.dart';
 
-class WriteOnlyWidget extends StatefulWidget {
+class WriteOnlyWidget extends StatelessWidget {
   static Widget withDependency() => ChangeNotifierProvider<NdefWriteModel>(
         create: (context) =>
             NdefWriteModel(Provider.of(context, listen: false)),
@@ -22,72 +21,64 @@ class WriteOnlyWidget extends StatefulWidget {
       );
   const WriteOnlyWidget({super.key});
 
-  @override
-  State<WriteOnlyWidget> createState() => _WriteOnlyWidgetState();
-}
-
-class _WriteOnlyWidgetState extends State<WriteOnlyWidget> {
-  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          StreamBuilder<Iterable<WriteRecord>>(
-            stream:
-                Provider.of<NdefWriteModel>(context, listen: false).subscribe(),
-            builder: (context, ss) => ListView(
-              padding: const EdgeInsets.all(2),
-              children: [
-                FormSection(children: [
-                  FormRow(
-                      title: const Text('Add Record'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       fullscreenDialog: true,
-                            //       builder: (context) =>
-                            //           EditTextPage.withDependency(),
-                            //     ))
-                          }),
-                  FormRow(
-                    title: Text('Start Session',
-                        style: TextStyle(
-                          color: ss.data?.isNotEmpty != true
-                              ? Theme.of(context).disabledColor
-                              : Theme.of(context).colorScheme.primary,
-                        )),
-                    onTap: ss.data?.isNotEmpty != true
-                        ? null
-                        : () => startSession(
-                              context: context,
-                              handleTag: (tag) => Provider.of<NdefWriteModel>(
-                                      context,
-                                      listen: false)
-                                  .handleTag(tag, ss.data!),
-                            ),
-                  ),
-                ]),
-                // if (ss.data?.isNotEmpty == true)
-                //   FormSection(
-                //     header: Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //       children: [
-                //         const Text('RECORDS'),
-                //         Text(
-                //             '${ss.data!.map((e) => e.record.byteLength).reduce((a, b) => a + b)} bytes'),
-                //       ],
-                //     ),
-                //     children: List.generate(ss.data!.length, (i) {
-                //       final record = ss.data!.elementAt(i);
-                //       return _WriteRecordFormRow(i, record);
-                //     }),
-                //   ),
-              ],
-            ),
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Ndef - Write'),
+      ),
+      body: StreamBuilder<Iterable<WriteRecord>>(
+        stream: Provider.of<NdefWriteModel>(context, listen: false).subscribe(),
+        builder: (context, ss) => ListView(
+          padding: const EdgeInsets.all(2),
+          children: [
+            FormSection(children: [
+              FormRow(
+                  title: const Text('Add Record'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              fullscreenDialog: true,
+                              builder: (context) =>
+                                  EditTextPage.withDependency(),
+                            ))
+                      }),
+              FormRow(
+                title: Text('Start Session',
+                    style: TextStyle(
+                      color: ss.data?.isNotEmpty != true
+                          ? Theme.of(context).disabledColor
+                          : Theme.of(context).colorScheme.primary,
+                    )),
+                onTap: ss.data?.isNotEmpty != true
+                    ? null
+                    : () => startSession(
+                          context: context,
+                          handleTag: (tag) => Provider.of<NdefWriteModel>(
+                                  context,
+                                  listen: false)
+                              .handleTag(tag, ss.data!),
+                        ),
+              ),
+            ]),
+            if (ss.data?.isNotEmpty == true)
+              FormSection(
+                header: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('RECORDS'),
+                    Text(
+                        '${ss.data!.map((e) => e.record.byteLength).reduce((a, b) => a + b)} bytes'),
+                  ],
+                ),
+                children: List.generate(ss.data!.length, (i) {
+                  final record = ss.data!.elementAt(i);
+                  return _WriteRecordFormRow(i, record);
+                }),
+              ),
+          ],
+        ),
       ),
     );
   }

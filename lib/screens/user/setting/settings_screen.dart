@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:mobile/localization/locals.dart';
+import 'package:mobile/screens/signin_screen.dart';
 import 'package:mobile/widgets/appbar/app_bar.dart';
 import 'package:mobile/widgets/avators/profile_avator_widget.dart';
 import 'package:mobile/widgets/buttons/outlined_button_with_text.dart';
@@ -79,6 +80,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 content: LocaleData.logout
                     .getString(context), // Remove getString(context)
                 width: 230,
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const SigninScreen(),
+                    ),
+                    (route) => false,
+                  );
+                },
               )
             ],
           ),

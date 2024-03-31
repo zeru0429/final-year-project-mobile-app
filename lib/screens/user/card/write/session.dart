@@ -1,9 +1,47 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
-class UnavailableDialog extends StatelessWidget {
-  const UnavailableDialog({super.key});
+Future<void> startSession({
+  required BuildContext context,
+  required Future<String?> Function(NfcTag) handleTag,
+  String alertMessage = 'Hold your device near the item.',
+}) async {
+  if (!(await NfcManager.instance.isAvailable())) {
+    return showDialog(
+      // ignore: use_build_context_synchronously
+      context: context,
+      builder: (context) => _UnavailableDialog(),
+    );
+  }
 
+  if (Platform.isAndroid) {
+    return showDialog(
+      // ignore: use_build_context_synchronously
+      context: context,
+      builder: (context) => _AndroidSessionDialog(alertMessage, handleTag),
+    );
+  }
+
+  if (Platform.isIOS) {
+    return NfcManager.instance.startSession(
+      alertMessage: alertMessage,
+      onDiscovered: (tag) async {
+        try {
+          final result = await handleTag(tag);
+          if (result == null) return;
+          await NfcManager.instance.stopSession(alertMessage: result);
+        } catch (e) {
+          await NfcManager.instance.stopSession(errorMessage: '$e');
+        }
+      },
+    );
+  }
+
+  throw ('unsupported platform: ${Platform.operatingSystem}');
+}
+
+class _UnavailableDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -20,8 +58,8 @@ class UnavailableDialog extends StatelessWidget {
   }
 }
 
-class AndroidSessionDialog extends StatefulWidget {
-  const AndroidSessionDialog(this.alertMessage, this.handleTag, {super.key});
+class _AndroidSessionDialog extends StatefulWidget {
+  const _AndroidSessionDialog(this.alertMessage, this.handleTag);
 
   final String alertMessage;
 
@@ -31,7 +69,7 @@ class AndroidSessionDialog extends StatefulWidget {
   State<StatefulWidget> createState() => _AndroidSessionDialogState();
 }
 
-class _AndroidSessionDialogState extends State<AndroidSessionDialog> {
+class _AndroidSessionDialogState extends State<_AndroidSessionDialog> {
   String? _alertMessage;
 
   String? _errorMessage;
@@ -45,8 +83,6 @@ class _AndroidSessionDialogState extends State<AndroidSessionDialog> {
           final result = await widget.handleTag(tag);
           if (result == null) return;
           await NfcManager.instance.stopSession();
-          print(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
-          print(result);
           setState(() => _alertMessage = result);
         } catch (e) {
           await NfcManager.instance.stopSession().catchError((_) {/* no op */});
@@ -88,7 +124,7 @@ class _AndroidSessionDialogState extends State<AndroidSessionDialog> {
                     ? 'OK'
                     : 'CANCEL',
           ),
-          onPressed: () => {Navigator.pop(context)},
+          onPressed: () => Navigator.pop(context),
         ),
       ],
     );
