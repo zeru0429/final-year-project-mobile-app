@@ -24,3 +24,21 @@ Future<bool?> getNightMode() async {
   final prefs = await SharedPreferences.getInstance();
   return prefs.getBool('nightMode');
 }
+
+// store token
+Future<void> saveToken(String token) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('token', token);
+}
+
+// get token
+Future<String?> getToken() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('token');
+}
+
+// remove token
+Future<void> removeToken() async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove('token');
+}
