@@ -2,9 +2,8 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/util/shared_preferences.dart';
 
 class ServerInstance {
-  // static const String baseUrl = 'http://10.141.223.254:8888/';
   static const String baseUrl =
-      'https://final-year-project-backend.onrender.com/';
+      'https://final-year-project-backend.onrender.com/api';
 
   static Map<String, String> headers = {
     'Content-Type': 'application/json',

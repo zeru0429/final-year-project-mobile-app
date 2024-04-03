@@ -3,9 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/localization/locals.dart';
 import 'package:mobile/notification_controller.dart';
+import 'package:mobile/providers/auth.dart';
+import 'package:mobile/providers/news_provider.dart';
+import 'package:mobile/providers/socket_provider.dart';
 import 'package:mobile/providers/theme_provider.dart';
 import 'package:mobile/repository/repository.dart';
+import 'package:mobile/screens/intro/Intro_screen.dart';
+import 'package:mobile/screens/signin_screen.dart';
+import 'package:mobile/screens/signup_screen.dart';
 import 'package:mobile/screens/splash/splash_screen.dart';
+import 'package:mobile/screens/user/home/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -37,8 +44,18 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
+          create: (_) => AuthProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SocketProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (_) => ThemeProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => NewsProvider(),
+        ),
+        // Add the repository provider to the widget tree
         Provider<Repository>.value(
           value: repo,
         ),
@@ -70,6 +87,9 @@ class _MyAppState extends State<MyApp> {
             NotificationController.onDismissActionReceivedMethod);
     super.initState();
     requestPermissions();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Provider.of<AuthProvider>(context, listen: false).prepareAuthData();
+    });
   }
 
   Future<void> requestPermissions() async {
@@ -154,6 +174,12 @@ class _MyAppState extends State<MyApp> {
       home: const Scaffold(
         body: SplashScreen(),
       ),
+      routes: {
+        '/home': (context) => const HomeScreen(),
+        '/signin': (context) => const SigninScreen(),
+        '/signup': (context) => const SignupScreen(),
+        '/intro': (context) => const IntroScreen(),
+      },
     );
   }
 }

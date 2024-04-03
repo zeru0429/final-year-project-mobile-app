@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile/providers/auth.dart';
 import 'package:mobile/screens/intro/Intro_screen.dart';
 import 'package:mobile/screens/signin_screen.dart';
 import 'package:mobile/util/shared_preferences.dart';
@@ -24,13 +27,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    checkIfForstTiles();
+    checkIfFirstTiles();
+
     Future.delayed(
-      const Duration(
-        seconds: 5,
-      ),
+      const Duration(seconds: 5),
       () {
-        //navigate to homeScreeen => const HomeScreen();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -42,9 +43,8 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void checkIfForstTiles() async {
+  void checkIfFirstTiles() async {
     isItFirstTiles = await isForTheFirstTime();
-    print(isItFirstTiles);
   }
 
   @override

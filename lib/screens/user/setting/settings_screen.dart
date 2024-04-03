@@ -2,7 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:mobile/localization/locals.dart';
+import 'package:mobile/providers/auth.dart';
+import 'package:mobile/providers/socket_provider.dart';
 import 'package:mobile/screens/signin_screen.dart';
+import 'package:mobile/util/shared_preferences.dart';
 import 'package:mobile/widgets/appbar/app_bar.dart';
 import 'package:mobile/widgets/avators/profile_avator_widget.dart';
 import 'package:mobile/widgets/buttons/outlined_button_with_text.dart';
@@ -24,8 +27,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+
     _flutterLocalization = FlutterLocalization.instance;
     _currentLocale = _flutterLocalization.currentLocale!.languageCode;
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      print(Provider.of<SocketProvider>(context, listen: false).getStatus);
+    });
   }
 
   @override
@@ -43,19 +50,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Center(
                 child: ProfileAvator(
                   dummyType: ProfileAvatorType.Image,
-                  scale: 4,
+                  scale: 3.3,
                   color: Provider.of<ThemeProvider>(context)
                       .themeData
                       .colorScheme
                       .secondaryContainer,
-                  image:
-                      'https://media.istockphoto.com/id/1494343415/photo/woman-from-borana-tribe-holding-her-baby-ethiopia-africa.jpg?s=1024x1024&w=is&k=20&c=rS8uvA03J75RXNoCXKaj-GHPLb8y6JkDL1iM9jUCQcI=',
+                  image: Provider.of<AuthProvider>(context)
+                      .getUser
+                      .userProfile
+                      .imageUrl,
                   icon: Icons.person,
                   key: UniqueKey(),
                 ),
               ),
               const SizedBox(
                 height: 20,
+              ),
+              Text(
+                "${Provider.of<AuthProvider>(context).getUser.userProfile.firstName} ${Provider.of<AuthProvider>(context).getUser.userProfile.middleName}",
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                Provider.of<AuthProvider>(context).getUser.role,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Provider.of<ThemeProvider>(context)
+                      .themeData
+                      .colorScheme
+                      .primary,
+                  fontWeight: FontWeight.w500,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               ProfileTextOption(
                 label: LocaleData.myAccount.getString(context),
@@ -81,19 +112,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     .getString(context), // Remove getString(context)
                 width: 230,
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => const SigninScreen(),
-                    ),
-                    (route) => false,
-                  );
+                  _handleLogout();
                 },
               )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _handleLogout() {
+    //first remove token
+    removeToken();
+    //then Navigate to SigninScreen
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => const SigninScreen(),
+      ),
+      (route) => false,
     );
   }
 

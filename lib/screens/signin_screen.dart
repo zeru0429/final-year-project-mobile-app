@@ -1,5 +1,9 @@
+// ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:mobile/providers/auth.dart';
 import 'package:mobile/screens/signup_screen.dart';
+import 'package:mobile/screens/user/user_layout.dart';
 import 'package:mobile/services/auth_service.dart';
 import 'package:mobile/services/message_service.dart';
 import 'package:mobile/style/button_style.dart';
@@ -24,43 +28,67 @@ class _SigninScreenState extends State<SigninScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _checkLogin();
   }
 
   void _checkLogin() async {
     token = await getToken();
-    if (token != null) {}
+    if (token != null) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const UserAppLayout()),
+          (route) => false);
+    }
   }
 
-  void handleSubmit() {
-    setState(() {
-      isLoading = true; // Set loading state to true when the button is clicked
-    });
+  Future<void> handleSubmit() async {
+    print("-------------------start send ing request -----------------");
 
-    // prepare data
+    if (isLoading) return;
+    //if user email input empty
+    if (_emailcontroller.text.isEmpty) {
+      SnackBarService.showSnackBar(
+          context, 'email fields is required', Colors.redAccent);
+      return;
+    }
+    //if user password input empty
+    if (_passwordcontroller.text.isEmpty) {
+      SnackBarService.showSnackBar(
+          context, 'password fields is required', Colors.redAccent);
+      return;
+    }
+    // Set loading state to true when the button is clicked
+    setState(() {
+      isLoading = true;
+    });
+    // prepare  json data
     final jsonData = {
       "email": _emailcontroller.text,
       "password": _passwordcontroller.text,
     };
-
-    // handle response
-    AuthService().signInService(jsonData).then((value) {
-      setState(() {
-        isLoading =
-            false; // Set loading state to false when the response is received
+    //send api request
+    AuthService authService = AuthService();
+    final response = await authService.signInService(jsonData);
+    //handle response
+    if (response['success'] != true) {
+      //show message
+      SnackBarService.showSnackBar(
+          context, response['message'], Colors.redAccent);
+    } else {
+      //show message
+      SnackBarService.showSnackBar(
+          context, response['message'], Colors.greenAccent);
+      //start feching user data
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        Provider.of<AuthProvider>(context, listen: false).prepareAuthData();
       });
-      print("--------------------------------------");
-      print(value);
-      if (value['success']) {
-        SnackBarService.showSnackBar(
-            context, value['message'].toString(), Colors.green);
-        // Use pushNamedAndRemoveUntil to remove all previous routes
-      } else {
-        SnackBarService.showSnackBar(context, value['message'].toString(),
-            const Color.fromARGB(176, 244, 67, 54));
-      }
+      //navigate to home page
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const UserAppLayout()),
+          (route) => false);
+    }
+    setState(() {
+      isLoading = false; // Set loading state to true when the button is clicked
     });
   }
 
@@ -140,33 +168,46 @@ class _SigninScreenState extends State<SigninScreen> {
                       label: "Your Password",
                     ),
                     const SizedBox(height: 40),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 60,
+                    Center(
                       child: isLoading
-                          ? const CircularProgressIndicator(
-                              semanticsLabel: 'loading...',
-                            ) // Show loading indicator
-                          : ElevatedButton(
-                              style: ButtonStyles.blueRounded,
-                              onPressed: () {
-                                print(_emailcontroller.text);
-                                print(_passwordcontroller.text);
-                                handleSubmit();
-                                // Navigator.pushAndRemoveUntil(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => const UserAppLayout(),
-                                //   ),
-                                //   (route) => false,
-                                // );
+                          ? InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isLoading = false;
+                                });
                               },
-                              // style: ButtonStyles.blueRounded,
-                              child: Text(
-                                'Sign In',
-                                style: GoogleFonts.lato(
-                                  fontSize: 20,
-                                  color: Colors.white,
+                              child: SizedBox(
+                                width: 60,
+                                height: 30,
+                                child: CircularProgressIndicator(
+                                  semanticsLabel: 'loading...',
+                                  color: Provider.of<ThemeProvider>(context)
+                                      .themeData
+                                      .colorScheme
+                                      .secondary,
+                                  backgroundColor:
+                                      Provider.of<ThemeProvider>(context)
+                                          .themeData
+                                          .colorScheme
+                                          .background,
+                                ),
+                              ),
+                            ) // Show loading indicator
+                          : SizedBox(
+                              width: double.infinity,
+                              height: 60,
+                              child: ElevatedButton(
+                                style: ButtonStyles.blueRounded,
+                                onPressed: () {
+                                  handleSubmit();
+                                },
+                                // style: ButtonStyles.blueRounded,
+                                child: Text(
+                                  'Sign In',
+                                  style: GoogleFonts.lato(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),

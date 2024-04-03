@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
+import 'package:mobile/model/news/news_model.dart';
 import 'package:mobile/providers/theme_provider.dart';
 import 'package:mobile/screens/user/home/news_detail.dart';
 import 'package:mobile/widgets/carousel/banner_carousel.dart';
@@ -8,17 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 
 class NewsCard extends StatefulWidget {
-  const NewsCard({
-    super.key,
-    required this.images,
-    required this.title,
-    required this.description,
-    required this.date,
-  });
-  final List<String> images;
-  final String title;
-  final String description;
-  final DateTime date;
+  const NewsCard({super.key, required this.news});
+  final News news;
 
   @override
   State<NewsCard> createState() => _NewsCardState();
@@ -35,10 +27,12 @@ class _NewsCardState extends State<NewsCard> {
           MaterialPageRoute(
             builder: (context) {
               return NewsDetailScreen(
-                imageUrl: widget.images,
-                title: widget.title,
-                description: widget.description,
-                date: widget.date,
+                id: widget.news.id,
+                imageUrl:
+                    widget.news.images.map((img) => img.imageUrl).toList(),
+                title: widget.news.titleAm,
+                description: widget.news.descriptionAm,
+                date: widget.news.createdAt,
               );
             },
           ),
@@ -74,11 +68,11 @@ class _NewsCardState extends State<NewsCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             PostCarousel(
-              images: widget.images,
+              images: widget.news.images.map((img) => img.imageUrl).toList(),
             ),
             Center(
               child: Text(
-                widget.title,
+                getFirstNCharacters(widget.news.titleAm, 30),
                 style: TextStyle(
                   color: Provider.of<ThemeProvider>(context)
                       .themeData
@@ -95,7 +89,7 @@ class _NewsCardState extends State<NewsCard> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    widget.description,
+                    getFirstNCharacters(widget.news.descriptionAm, 200),
                     style: TextStyle(
                       fontSize: 16,
                       color: Provider.of<ThemeProvider>(context)
@@ -107,7 +101,7 @@ class _NewsCardState extends State<NewsCard> {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Text(
-                      formatDateTime(widget.date),
+                      formatDateTime(widget.news.createdAt),
                       style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w300,
@@ -122,6 +116,14 @@ class _NewsCardState extends State<NewsCard> {
         ),
       ),
     );
+  }
+
+  String getFirstNCharacters(String input, int size) {
+    if (input.length <= size) {
+      return input;
+    } else {
+      return ('${input.substring(0, size)} . . . . .');
+    }
   }
 }
 

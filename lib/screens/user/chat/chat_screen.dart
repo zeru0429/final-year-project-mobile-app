@@ -1,7 +1,11 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'package:mobile/data/app_data.dart';
+import 'package:mobile/providers/socket_provider.dart';
 import 'package:mobile/providers/theme_provider.dart';
 import 'package:mobile/screens/user/chat/new_message.dart';
+import 'package:mobile/util/shared_preferences.dart';
 import 'package:mobile/widgets/chat/chat_users_section.dart';
 import 'package:mobile/widgets/chat/online_user.dart';
 import 'package:mobile/widgets/form/search_box.dart';
@@ -18,6 +22,23 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _getSocketConnection();
+  }
+
+  void _getSocketConnection() {
+    getToken().then((value) => {
+          WidgetsBinding.instance!.addPostFrameCallback((_) {
+            Provider.of<SocketProvider>(context, listen: false).connect(value!);
+          })
+        });
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      print(Provider.of<SocketProvider>(context, listen: false).getStatus);
+    });
+  }
+
   final onlineUsers = List.generate(
     AppData.onlineUsers.length,
     (index) => OnlineUser(

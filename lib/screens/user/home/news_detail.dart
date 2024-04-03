@@ -6,6 +6,7 @@ import 'package:mobile/widgets/carousel/banner_carousel.dart';
 import 'package:provider/provider.dart';
 
 class NewsDetailScreen extends StatelessWidget {
+  final int id;
   final List<String> imageUrl;
   final String title;
   final String description;
@@ -17,6 +18,7 @@ class NewsDetailScreen extends StatelessWidget {
     required this.title,
     required this.description,
     required this.date,
+    required this.id,
   });
 
   @override
@@ -41,11 +43,12 @@ class NewsDetailScreen extends StatelessWidget {
           children: [
             SizedBox(
               width: MediaQuery.of(context).size.width * 1,
-              height: 200,
+              height: 350,
               child: PostCarousel(images: imageUrl),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 2),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

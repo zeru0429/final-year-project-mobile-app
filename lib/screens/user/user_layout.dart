@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile/localization/locals.dart';
+import 'package:mobile/providers/news_provider.dart';
+import 'package:mobile/providers/socket_provider.dart';
 import 'package:mobile/providers/theme_provider.dart';
 import 'package:mobile/screens/user/card/smart_card.dart';
 import 'package:mobile/screens/user/chat/chat_screen.dart';
@@ -10,6 +12,7 @@ import 'package:mobile/screens/user/notification/notification_screen.dart';
 import 'package:mobile/screens/user/setting/settings_screen.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:mobile/util/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 class UserAppLayout extends StatefulWidget {
@@ -25,6 +28,14 @@ class _UserAppLayoutState extends State<UserAppLayout> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Provider.of<NewsProvider>(context, listen: false).fetchNews();
+    });
+    getToken().then((value) => {
+          WidgetsBinding.instance!.addPostFrameCallback((_) {
+            Provider.of<SocketProvider>(context, listen: false).connect(value!);
+          })
+        });
   }
 
   @override
