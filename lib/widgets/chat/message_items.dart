@@ -82,6 +82,7 @@ class MessengerDetails extends StatelessWidget {
       child: Row(
         children: [
           OnlineUser(
+            id: 12,
             image: image,
             userName: userName,
           ),

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile/data/app_data.dart';
+import 'package:mobile/providers/auth.dart';
 import 'package:mobile/providers/socket_provider.dart';
 import 'package:mobile/providers/theme_provider.dart';
 import 'package:mobile/screens/user/chat/new_message.dart';
@@ -38,14 +39,6 @@ class _ChatScreenState extends State<ChatScreen> {
       print(Provider.of<SocketProvider>(context, listen: false).getStatus);
     });
   }
-
-  final onlineUsers = List.generate(
-    AppData.onlineUsers.length,
-    (index) => OnlineUser(
-      image: AppData.onlineUsers[index]['profileImage'],
-      userName: AppData.onlineUsers[index]['name'],
-    ),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -94,10 +87,28 @@ class _ChatScreenState extends State<ChatScreen> {
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.99,
           height: MediaQuery.of(context).size.height * 0.655,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [...onlineUsers],
-            ),
+          child: ListView.builder(
+            itemCount: Provider.of<AuthProvider>(context)
+                .getUser
+                .participantInChats!
+                .length,
+            itemBuilder: (BuildContext context, int index) {
+              return OnlineUser(
+                  id: Provider.of<AuthProvider>(context)
+                      .getUser
+                      .participantInChats![index]
+                      .id,
+                  userName: Provider.of<AuthProvider>(context)
+                      .getUser
+                      .participantInChats![index]
+                      .name,
+                  lastMessage: Provider.of<AuthProvider>(context)
+                      .getUser
+                      .participantInChats![index]
+                      .lastMessage,
+                  image:
+                      'https://images.unsplash.com/photo-1712242467502-678b72cc8b5b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            },
           ),
         ),
       ],

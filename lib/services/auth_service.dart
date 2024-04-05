@@ -52,4 +52,21 @@ class AuthService {
     }
     return {'success': false, 'message': ' no valid or expired token '};
   }
+
+  Future<List<Map<String, dynamic>>> getConversation(int chatId) async {
+    print('${ServerInstance.baseUrl}/chat//message/$chatId');
+    final url = Uri.parse('${ServerInstance.baseUrl}/chat/message/$chatId');
+    await ServerInstance.updateHeadersWithToken();
+    final resquest = await ServerInstance.getClient().get(
+      url,
+      headers: ServerInstance.headers,
+    );
+    print(resquest.statusCode);
+    if (resquest.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(resquest.body);
+      print(responseData);
+      return responseData['data'];
+    }
+    return [];
+  }
 }

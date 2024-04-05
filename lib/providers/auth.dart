@@ -21,12 +21,16 @@ class AuthProvider extends ChangeNotifier {
           'https://images.unsplash.com/photo-1607454230973-e19abb3fa2bc?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       gender: 'No',
     ),
+    participantInChats: [],
+    adminOfChats: [],
   );
-
+  //prepare conversation
+  List<ChatModel2> _chats = []; //list of chats
   // get
   bool get isLogin => islogin;
 
   AuthUserInfo get getUser => _user!;
+  List<ChatModel2> get _chatLists => _chats;
   //set
   void setToken(String token) {
     this.token = token;
@@ -58,13 +62,11 @@ class AuthProvider extends ChangeNotifier {
     //first check it token exist
     final token = await getToken();
     if (token == null) {
-      print(" -------------------- no token ----------------------");
     } else {
       //if token not exist send request for auth data
       AuthService authService = AuthService();
       final response = await authService.meService();
       if (response['success'] == false) {
-        print(" -------------------- stope ----------------------");
       } else {
         login();
         setUser(AuthUserInfo.fromJson(response));
@@ -72,4 +74,11 @@ class AuthProvider extends ChangeNotifier {
     }
     print(" -------------------- Done ----------------------");
   }
+
+  //set or fetch conversations
+  void setChats(List<ChatModel2> chats) {
+    _chats = chats;
+    notifyListeners();
+  }
+  //update conversations info
 }

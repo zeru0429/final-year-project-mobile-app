@@ -1,11 +1,15 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/data/sample_chat_data.dart';
 import 'package:mobile/providers/theme_provider.dart';
+import 'package:mobile/services/auth_service.dart';
 import 'package:provider/provider.dart';
 
 class ConversationScreen extends StatefulWidget {
-  const ConversationScreen({Key? key}) : super(key: key);
+  const ConversationScreen({super.key, required this.chatId});
+  final int chatId;
 
   @override
   State<ConversationScreen> createState() => _ConversationScreenState();
@@ -16,6 +20,19 @@ class _ConversationScreenState extends State<ConversationScreen> {
   final ChatUser _anotherUser = users[0];
   final List<ChatUser> _typingUsers = <ChatUser>[];
   final List<ChatMessage> _messages = messages;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchConversation();
+  }
+
+  _fetchConversation() {
+    print("---------------start--------------");
+
+    final response = AuthService().getConversation(widget.chatId);
+    print("---------------stope--------------");
+  }
 
   @override
   Widget build(BuildContext context) {
