@@ -17,7 +17,16 @@ class NewsCard extends StatefulWidget {
 }
 
 class _NewsCardState extends State<NewsCard> {
+  late String _currentLocale;
   late FlutterLocalization _flutterLocalization;
+  @override
+  void initState() {
+    super.initState();
+    _flutterLocalization = FlutterLocalization.instance;
+    _currentLocale = _flutterLocalization.currentLocale!.languageCode;
+    // print(_currentLocale);
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -25,16 +34,23 @@ class _NewsCardState extends State<NewsCard> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) {
-              return NewsDetailScreen(
-                id: widget.news.id,
-                imageUrl:
-                    widget.news.images.map((img) => img.imageUrl).toList(),
-                title: widget.news.titleAm,
-                description: widget.news.descriptionAm,
-                date: widget.news.createdAt,
-              );
-            },
+            builder: (context) => _currentLocale == 'am'
+                ? NewsDetailScreen(
+                    id: widget.news.id,
+                    imageUrl:
+                        widget.news.images.map((img) => img.imageUrl).toList(),
+                    title: widget.news.titleAm,
+                    description: widget.news.descriptionAm,
+                    date: widget.news.createdAt,
+                  )
+                : NewsDetailScreen(
+                    id: widget.news.id,
+                    imageUrl:
+                        widget.news.images.map((img) => img.imageUrl).toList(),
+                    title: widget.news.titleOr,
+                    description: widget.news.descriptionOr,
+                    date: widget.news.createdAt,
+                  ),
           ),
         );
       },
@@ -72,7 +88,11 @@ class _NewsCardState extends State<NewsCard> {
             ),
             Center(
               child: Text(
-                getFirstNCharacters(widget.news.titleAm, 30),
+                getFirstNCharacters(
+                    _currentLocale == 'am'
+                        ? widget.news.titleAm
+                        : widget.news.titleOr,
+                    30),
                 style: TextStyle(
                   color: Provider.of<ThemeProvider>(context)
                       .themeData
@@ -89,7 +109,11 @@ class _NewsCardState extends State<NewsCard> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    getFirstNCharacters(widget.news.descriptionAm, 200),
+                    getFirstNCharacters(
+                        _currentLocale == 'am'
+                            ? widget.news.descriptionAm
+                            : widget.news.descriptionOr,
+                        200),
                     style: TextStyle(
                       fontSize: 16,
                       color: Provider.of<ThemeProvider>(context)

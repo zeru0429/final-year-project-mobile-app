@@ -85,6 +85,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontStyle: FontStyle.italic,
                 ),
               ),
+              Text(
+                Provider.of<SocketProvider>(context).getStatus.toString(),
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),

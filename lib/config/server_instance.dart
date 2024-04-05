@@ -4,7 +4,7 @@ import 'package:mobile/util/shared_preferences.dart';
 class ServerInstance {
   static const String baseUrl =
       'https://final-year-project-backend.onrender.com/api';
-
+  static const String socketUrl = 'http://192.168.1.8:7777';
   static Map<String, String> headers = {
     'Content-Type': 'application/json',
   };

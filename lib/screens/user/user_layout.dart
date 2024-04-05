@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
-
+import 'package:intl/intl.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mobile/localization/locals.dart';
 import 'package:mobile/providers/news_provider.dart';
@@ -14,6 +15,8 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:mobile/util/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:mobile/config/server_instance.dart';
 
 class UserAppLayout extends StatefulWidget {
   const UserAppLayout({super.key});
@@ -24,10 +27,18 @@ class UserAppLayout extends StatefulWidget {
 
 class _UserAppLayoutState extends State<UserAppLayout> {
   int _currentPage = 0;
+  late IO.Socket _socket;
+  final TextEditingController _messageInputController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    // _socket = IO.io(
+    //   'http://192.168.1.8:3000',
+    //   IO.OptionBuilder().setTransports(['websocket']).setQuery(
+    //       {'username': 'kebede'}).build(),
+    // );
+    // _connectSocket();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       Provider.of<NewsProvider>(context, listen: false).fetchNews();
     });
@@ -36,6 +47,25 @@ class _UserAppLayoutState extends State<UserAppLayout> {
             Provider.of<SocketProvider>(context, listen: false).connect(value!);
           })
         });
+  }
+
+  _sendMessage() {
+    _socket.emit('message',
+        {'message': _messageInputController.text.trim(), 'sender': 'kebede'});
+    _messageInputController.clear();
+  }
+
+  _connectSocket() {
+    print("-----------object fun -----------");
+    _socket.onConnect((data) => print('Connection established'));
+    _socket.onConnectError((data) => print('Connect Error: $data'));
+    _socket.onDisconnect((data) => print('Socket.IO server disconnected'));
+    // _socket.on(
+    //   'message',
+    //   (data) => Provider.of<HomeProvider>(context, listen: false).addNewMessage(
+    //     Message.fromJson(data),
+    //   ),
+    // );
   }
 
   @override

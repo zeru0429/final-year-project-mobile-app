@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, library_prefixes
+
 import 'package:flutter/material.dart';
 import 'package:mobile/config/server_instance.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -58,14 +60,13 @@ class SocketProvider extends ChangeNotifier {
   SocketStatus get getStatus => _status;
   //set
   void connect(String token) {
-    print("-------------socket started ----------------------");
-    _socket = IO.io(ServerInstance.baseUrl, <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-      'Authorization': {'token': token}
-    });
+    // _socket = IO.io(ServerInstance.socketUrl);
+    _socket = IO.io(
+      ServerInstance.socketUrl,
+      IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
+          {'authorization': token}).build(),
+    );
     _socket!.connect();
-
     _socket!.onConnect((_) {
       _status = SocketStatus.connected;
       notifyListeners();
@@ -82,8 +83,6 @@ class SocketProvider extends ChangeNotifier {
     _socket!.on(
         SocketEventsExtension(SocketEvents.CONNECT).value,
         (data) => {
-              print("-------------socket connected ----------------------"),
-              print(data),
               _status = SocketStatus.connected,
               notifyListeners(),
             });
@@ -91,12 +90,11 @@ class SocketProvider extends ChangeNotifier {
     _socket!.on(
         SocketEventsExtension(SocketEvents.DISCONNECT).value,
         (data) => {
-              print("-------------socket disconnected ----------------------"),
-              print(data),
               _status = SocketStatus.disconnected,
               notifyListeners(),
             });
     //-----------X- socket events -------------X-------//
+    notifyListeners();
   }
 
   void disconnect() {

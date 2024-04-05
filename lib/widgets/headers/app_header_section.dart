@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile/providers/socket_provider.dart';
 import 'package:mobile/providers/theme_provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:provider/provider.dart';
@@ -20,14 +21,14 @@ class AppHeaderSection extends StatelessWidget {
         (messagingPage != null)
             ? Row(children: [
                 Container(
-                  width: 10,
-                  height: 10,
+                  width: 15,
+                  height: 15,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Provider.of<ThemeProvider>(context)
-                        .themeData
-                        .colorScheme
-                        .secondary,
+                    color: Provider.of<SocketProvider>(context).getStatus ==
+                            SocketStatus.connected
+                        ? Colors.green
+                        : Colors.red,
                   ),
                 ),
                 const SizedBox(width: 5),

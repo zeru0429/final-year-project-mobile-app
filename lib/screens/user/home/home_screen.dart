@@ -2,11 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mobile/localization/locals.dart';
 import 'package:mobile/providers/news_provider.dart';
 import 'package:mobile/services/news_service.dart';
 import 'package:mobile/widgets/card/news_card.dart';
-import 'package:flutter_localization/flutter_localization.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
