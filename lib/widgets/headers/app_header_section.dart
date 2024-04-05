@@ -15,24 +15,39 @@ class AppHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        (messagingPage != null)
-            ? Row(children: [
-                Container(
-                  width: 15,
-                  height: 15,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Provider.of<SocketProvider>(context).getStatus ==
-                            SocketStatus.connected
-                        ? Colors.green
-                        : Colors.red,
+    return Container(
+      color: Provider.of<ThemeProvider>(context).themeData.colorScheme.surface,
+      padding: const EdgeInsets.all(0),
+      margin: const EdgeInsets.all(0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          (messagingPage != null)
+              ? Row(children: [
+                  Container(
+                    width: 15,
+                    height: 15,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Provider.of<SocketProvider>(context).getStatus ==
+                              SocketStatus.connected
+                          ? Colors.green
+                          : Colors.red,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 5),
-                Text(
+                  const SizedBox(width: 5),
+                  Text(
+                    title,
+                    style: GoogleFonts.lato(
+                      fontSize: 22,
+                      color: Provider.of<ThemeProvider>(context)
+                          .themeData
+                          .colorScheme
+                          .secondary,
+                    ),
+                  ),
+                ])
+              : Text(
                   title,
                   style: GoogleFonts.lato(
                     fontSize: 22,
@@ -42,19 +57,9 @@ class AppHeaderSection extends StatelessWidget {
                         .secondary,
                   ),
                 ),
-              ])
-            : Text(
-                title,
-                style: GoogleFonts.lato(
-                  fontSize: 22,
-                  color: Provider.of<ThemeProvider>(context)
-                      .themeData
-                      .colorScheme
-                      .secondary,
-                ),
-              ),
-        widget!
-      ],
+          widget!
+        ],
+      ),
     );
   }
 }

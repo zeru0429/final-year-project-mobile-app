@@ -49,10 +49,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
+    return Column(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.99,
+          height: MediaQuery.of(context).size.height * 0.205,
           child: Column(
             children: [
               AppHeaderSection(
@@ -87,13 +88,19 @@ class _ChatScreenState extends State<ChatScreen> {
               const SizedBox(
                 height: 10,
               ),
-              Column(
-                children: [...onlineUsers],
-              ),
             ],
           ),
         ),
-      ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.99,
+          height: MediaQuery.of(context).size.height * 0.655,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [...onlineUsers],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

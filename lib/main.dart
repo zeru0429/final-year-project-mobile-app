@@ -1,5 +1,4 @@
 // ignore_for_file: depend_on_referenced_packages
-
 import 'package:flutter/material.dart';
 import 'package:mobile/localization/locals.dart';
 import 'package:mobile/notification_controller.dart';
@@ -12,6 +11,7 @@ import 'package:mobile/screens/intro/Intro_screen.dart';
 import 'package:mobile/screens/signin_screen.dart';
 import 'package:mobile/screens/signup_screen.dart';
 import 'package:mobile/screens/splash/splash_screen.dart';
+import 'package:mobile/screens/user/card/ui/traditional_card.dart';
 import 'package:mobile/screens/user/home/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -172,7 +172,7 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: localization.supportedLocales,
       localizationsDelegates: localization.localizationsDelegates,
       home: const Scaffold(
-        body: SplashScreen(),
+        body: SplashScreen(), // TraditionalCard(),
       ),
       routes: {
         '/home': (context) => const HomeScreen(),

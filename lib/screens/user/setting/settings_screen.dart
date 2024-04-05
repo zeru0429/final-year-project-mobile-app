@@ -5,6 +5,10 @@ import 'package:mobile/localization/locals.dart';
 import 'package:mobile/providers/auth.dart';
 import 'package:mobile/providers/socket_provider.dart';
 import 'package:mobile/screens/signin_screen.dart';
+import 'package:mobile/screens/user/setting/options/account_option.dart';
+import 'package:mobile/screens/user/setting/options/certification_option.dart';
+import 'package:mobile/screens/user/setting/options/child_option.dart';
+import 'package:mobile/screens/user/setting/options/setting_option.dart';
 import 'package:mobile/util/shared_preferences.dart';
 import 'package:mobile/widgets/appbar/app_bar.dart';
 import 'package:mobile/widgets/avators/profile_avator_widget.dart';
@@ -85,6 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontStyle: FontStyle.italic,
                 ),
               ),
+              //socket
               Text(
                 Provider.of<SocketProvider>(context).getStatus.toString(),
                 style: const TextStyle(
@@ -95,21 +100,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(
                 height: 10,
               ),
-              ProfileTextOption(
-                label: LocaleData.myAccount.getString(context),
-                icon: Icons.person,
+              //options
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AccountOptions()));
+                },
+                child: ProfileTextOption(
+                  label: LocaleData.myAccount.getString(context),
+                  icon: Icons.person,
+                ),
               ),
-              ProfileTextOption(
-                label: LocaleData.myChildren.getString(context),
-                icon: Icons.child_care,
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const ChildOptions()));
+                },
+                child: ProfileTextOption(
+                  label: LocaleData.myChildren.getString(context),
+                  icon: Icons.child_care,
+                ),
               ),
-              ProfileTextOption(
-                label: LocaleData.myCertification.getString(context),
-                icon: Icons.list_alt_outlined,
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const CertificationOptions()));
+                },
+                child: ProfileTextOption(
+                  label: LocaleData.myCertification.getString(context),
+                  icon: Icons.list_alt_outlined,
+                ),
               ),
-              ProfileTextOption(
-                label: LocaleData.privacySecurity.getString(context),
-                icon: Icons.settings,
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const SettingOptions()));
+                },
+                child: ProfileTextOption(
+                  label: LocaleData.privacySecurity.getString(context),
+                  icon: Icons.settings,
+                ),
               ),
               const SizedBox(
                 height: 20,
