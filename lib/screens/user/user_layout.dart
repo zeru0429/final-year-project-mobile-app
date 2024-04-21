@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mobile/localization/locals.dart';
+import 'package:mobile/providers/auth.dart';
 import 'package:mobile/providers/news_provider.dart';
 import 'package:mobile/providers/socket_provider.dart';
 import 'package:mobile/providers/theme_provider.dart';
@@ -41,25 +42,6 @@ class _UserAppLayoutState extends State<UserAppLayout> {
             Provider.of<SocketProvider>(context, listen: false).connect(value!);
           })
         });
-  }
-
-  _sendMessage() {
-    _socket.emit('message',
-        {'message': _messageInputController.text.trim(), 'sender': 'kebede'});
-    _messageInputController.clear();
-  }
-
-  _connectSocket() {
-    print("-----------object fun -----------");
-    _socket.onConnect((data) => print('Connection established'));
-    _socket.onConnectError((data) => print('Connect Error: $data'));
-    _socket.onDisconnect((data) => print('Socket.IO server disconnected'));
-    // _socket.on(
-    //   'message',
-    //   (data) => Provider.of<HomeProvider>(context, listen: false).addNewMessage(
-    //     Message.fromJson(data),
-    //   ),
-    // );
   }
 
   @override

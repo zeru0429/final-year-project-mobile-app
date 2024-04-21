@@ -1,5 +1,3 @@
-import 'package:mobile/data/sample_chat_data.dart';
-
 class AuthUserInfo {
   final int id;
   final String email;
@@ -26,6 +24,7 @@ class AuthUserInfo {
       this.participantInChats,
       this.adminOfChats});
   factory AuthUserInfo.fromJson(Map<String, dynamic> json) {
+    print(json);
     if (json['role'] == "MOTHER") {
       return AuthUserInfo(
         id: json['id'],
@@ -182,30 +181,43 @@ class ChatModel2 {
   final DateTime createdAt;
   final int? adminId;
   final MessageModel? lastMessage;
+  final List<AuthUserInfo>? members;
+  final List<MessageModel>? allMessages;
 
-  ChatModel2({
-    required this.id,
-    required this.name,
-    required this.isGroup,
-    required this.createdAt,
-    this.adminId,
-    this.lastMessage,
-  });
+  ChatModel2(
+      {required this.id,
+      required this.name,
+      required this.isGroup,
+      required this.createdAt,
+      this.adminId,
+      this.lastMessage,
+      this.members,
+      this.allMessages});
 
   factory ChatModel2.fromJson(Map<String, dynamic> json) {
     final List<dynamic>? messageData = json['lastMessage'] as List<dynamic>?;
+    final List<dynamic>? memberData = json['participants'] as List<dynamic>?;
     final MessageModel? lastMessage =
         messageData != null && messageData.isNotEmpty
             ? MessageModel.fromJson(messageData.first)
             : null;
-    // print(lastMessage);
+    // print("+++++++++++++++++++++++++++object");
+    // final List<AuthUserInfo>? members =
+    //     memberData != null && memberData.isNotEmpty
+    //         ? memberData
+    //             .map((e) => AuthUserInfo.fromJson(e as Map<String, dynamic>))
+    //             .toList()
+    //         : null;
+    // print(memberData);
+
     return ChatModel2(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? "",
       isGroup: json['isGroup'] == true,
-      createdAt: DateTime.parse(json['createdAt']),
-      adminId: json['adminId'],
+      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toString()),
+      adminId: json['adminId'] ?? null,
       lastMessage: lastMessage,
+      // members: members,
     );
   }
 }

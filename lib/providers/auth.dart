@@ -81,4 +81,10 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
   //update conversations info
+
+  void allConversation() {
+    print("all conversations");
+
+    notifyListeners();
+  }
 }

@@ -27,11 +27,15 @@ class _ConversationScreenState extends State<ConversationScreen> {
     _fetchConversation();
   }
 
-  _fetchConversation() {
-    print("---------------start--------------");
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
-    final response = AuthService().getConversation(widget.chatId);
-    print("---------------stope--------------");
+  _fetchConversation() {
+    AuthService().getConversation(widget.chatId, 0, 5).then((value) => {
+          if (value.isNotEmpty) {value.map((e) => print(e))}
+        });
   }
 
   @override
@@ -40,7 +44,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
       backgroundColor:
           Provider.of<ThemeProvider>(context).themeData.colorScheme.background,
       appBar: AppBar(
-        title: const Text("Chat Page"),
+        title: Text(widget.chatId.toString()),
       ),
       body: SafeArea(
         child: Center(

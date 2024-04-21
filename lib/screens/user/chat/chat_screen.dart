@@ -35,83 +35,83 @@ class _ChatScreenState extends State<ChatScreen> {
             Provider.of<SocketProvider>(context, listen: false).connect(value!);
           })
         });
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      print(Provider.of<SocketProvider>(context, listen: false).getStatus);
-    });
+    WidgetsBinding.instance!.addPostFrameCallback((_) {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.99,
-          height: MediaQuery.of(context).size.height * 0.205,
-          child: Column(
-            children: [
-              AppHeaderSection(
-                title: LocaleData.chat.getString(context),
-                key: UniqueKey(),
-                messagingPage: true,
-                widget: OutlinedButton(
-                  style: const ButtonStyle(),
-                  onPressed: () {},
-                  child: Text(
-                    LocaleData.newChat.getString(context),
-                    style: TextStyle(
-                      color: Provider.of<ThemeProvider>(context)
-                          .themeData
-                          .colorScheme
-                          .secondary,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.99,
+            height: MediaQuery.of(context).size.height * 0.205,
+            child: Column(
+              children: [
+                AppHeaderSection(
+                  title: LocaleData.chat.getString(context),
+                  key: UniqueKey(),
+                  messagingPage: true,
+                  widget: OutlinedButton(
+                    style: const ButtonStyle(),
+                    onPressed: () {},
+                    child: Text(
+                      LocaleData.newChat.getString(context),
+                      style: TextStyle(
+                        color: Provider.of<ThemeProvider>(context)
+                            .themeData
+                            .colorScheme
+                            .secondary,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const SearchBox(placeholder: 'username'),
-              const SizedBox(
-                height: 10,
-              ),
-              SelectionTab(
-                title: "DIRECT MESSAGES",
-                page: NewMessageScreen(),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                const SearchBox(placeholder: 'username'),
+                const SizedBox(
+                  height: 10,
+                ),
+                SelectionTab(
+                  title: "DIRECT MESSAGES",
+                  page: NewMessageScreen(),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
           ),
-        ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.99,
-          height: MediaQuery.of(context).size.height * 0.655,
-          child: ListView.builder(
-            itemCount: Provider.of<AuthProvider>(context)
-                .getUser
-                .participantInChats!
-                .length,
-            itemBuilder: (BuildContext context, int index) {
-              return OnlineUser(
-                  id: Provider.of<AuthProvider>(context)
-                      .getUser
-                      .participantInChats![index]
-                      .id,
-                  userName: Provider.of<AuthProvider>(context)
-                      .getUser
-                      .participantInChats![index]
-                      .name,
-                  lastMessage: Provider.of<AuthProvider>(context)
-                      .getUser
-                      .participantInChats![index]
-                      .lastMessage,
-                  image:
-                      'https://images.unsplash.com/photo-1712242467502-678b72cc8b5b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-            },
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.99,
+            height: MediaQuery.of(context).size.height * 0.655,
+            child: ListView.builder(
+              itemCount: Provider.of<AuthProvider>(context)
+                  .getUser
+                  .participantInChats!
+                  .length,
+              itemBuilder: (BuildContext context, int index) {
+                return OnlineUser(
+                    id: Provider.of<AuthProvider>(context)
+                        .getUser
+                        .participantInChats![index]
+                        .id,
+                    userName: Provider.of<AuthProvider>(context)
+                        .getUser
+                        .participantInChats![index]
+                        .name,
+                    lastMessage: Provider.of<AuthProvider>(context)
+                        .getUser
+                        .participantInChats![index]
+                        .lastMessage,
+                    image:
+                        'https://images.unsplash.com/photo-1712242467502-678b72cc8b5b?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
